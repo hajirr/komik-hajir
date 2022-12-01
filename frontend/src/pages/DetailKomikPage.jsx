@@ -1,5 +1,85 @@
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { postDetailKomik } from "../sources/api";
+
 const DetailKomikPage = () => {
-  return <div>Detail Komik Page</div>;
+  const [daftarChapter, setDaftarChapter] = useState([]);
+  const komikUrl = process.env.REACT_APP_BASE_KOMIK_URL;
+
+  const { pathname } = window.location;
+  const arrayPath = pathname.split("/");
+  const komik = `/${arrayPath[arrayPath.length - 3]}/${
+    arrayPath[arrayPath.length - 2]
+  }`;
+  const formData = new FormData();
+  const navigate = useNavigate();
+
+  const handleClickChapter = (url) => {
+    // setUrlChapterKomik(url);
+    const arrayPath = url.split("/");
+    const chapter = `/${arrayPath[arrayPath.length - 3]}/${
+      arrayPath[arrayPath.length - 2]
+    }/`;
+    navigate(chapter);
+  };
+
+  const searchQuery = useRef();
+
+  const handleSearch = () => {
+    const url = `/search/${searchQuery.current.value}`;
+    navigate(url);
+  };
+
+  useEffect(() => {
+    const body = {
+      url: `${komikUrl}${komik}`,
+    };
+    formData.append("url", `${komikUrl}${komik}`);
+    console.log(body.url);
+    postDetailKomik(formData)
+      .then((response) => {
+        setDaftarChapter(response.data.response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  return (
+    <div className="w-screen min-h-screen">
+      <div className="bg-sky-500 w-screen p-4 flex justify-between place-items-center">
+        <a href="/" className="text-white text-2xl">
+          kumik
+        </a>
+        <input
+          type="text"
+          ref={searchQuery}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
+          }}
+          placeholder="Cari..."
+          className="placeholder:text-sky-700 py-1 px-2 rounded bg-sky-300 text-sky-700"
+        />
+      </div>
+      <div className="mx-32 p-4 shadow-lg rounded-lg">
+        <div className="border-b mb-4 py-2 text-sky-500">
+          <p>Chapter</p>
+        </div>
+        {daftarChapter.map((response) => {
+          return (
+            <div
+              className="cursor-pointer flex space-x-2 text-xs w-full justify-between border-b mb-2 py-2 font-semibold"
+              onClick={() => handleClickChapter(response.url)}
+            >
+              <p>{response.title}</p> <p>{response.updated_at}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default DetailKomikPage;

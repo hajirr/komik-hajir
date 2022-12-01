@@ -1,4 +1,24 @@
+import { useNavigate } from "react-router-dom";
+
 const RilisanTerbaru = ({ rilisanTerbaru }) => {
+  const navigate = useNavigate();
+
+  const handleClickDetail = (url) => {
+    const arrayPath = url.split("/");
+    const komik = `/${arrayPath[arrayPath.length - 3]}/${
+      arrayPath[arrayPath.length - 2]
+    }/`;
+    navigate(komik);
+  };
+
+  const handleClickChapter = (url) => {
+    const arrayPath = url.split("/");
+    const chapter = `/${arrayPath[arrayPath.length - 3]}/${
+      arrayPath[arrayPath.length - 2]
+    }/`;
+    navigate(chapter);
+  };
+
   return (
     <div className="p-2 border-solid border border-sky-500 rounded-lg w-full">
       <div className="font-semibold text-sky-500 text-sm">RILISAN TERBARU</div>
@@ -7,30 +27,33 @@ const RilisanTerbaru = ({ rilisanTerbaru }) => {
         {rilisanTerbaru.map((response) => {
           return (
             <div key={response.title} className="flex space-x-2 justify-center">
-              <a href={response.url}>
-                <div
-                  className="h-48 w-28 md:w-20 md:h-32"
-                  style={{
-                    backgroundImage: `url(${response.image})`,
-                    backgroundSize: "cover",
-                  }}
-                />
-              </a>
+              <div
+                className="h-48 w-28 md:w-20 md:h-32 cursor-pointer"
+                style={{
+                  backgroundImage: `url(${response.image})`,
+                  backgroundSize: "cover",
+                }}
+                onClick={() => handleClickDetail(response.url)}
+              />
               <div className="">
-                <p className="w-44 md:w-48 font-semibold text-sm md:truncate mb-4">
+                <p
+                  onClick={() => handleClickDetail(response.url)}
+                  className="w-44 md:w-48 font-semibold text-sm md:truncate mb-4 cursor-pointer"
+                >
                   {response.title}
                 </p>
                 <div className="flex flex-col space-y-2">
                   {response.chapter.map((chapter) => {
                     return (
-                      <div className="flex place-items-center justify-between">
-                        <a href={chapter.url}>
-                          <div className="bg-sky-200 p-1 rounded ">
-                            <p className="text-sky-700 text-xs">
-                              {chapter.title}
-                            </p>
-                          </div>
-                        </a>
+                      <div className="flex place-items-center justify-between cursor-pointer">
+                        <div
+                          className="bg-sky-200 p-1 rounded "
+                          onClick={() => handleClickChapter(chapter.url)}
+                        >
+                          <p className="text-sky-700 text-xs">
+                            {chapter.title}
+                          </p>
+                        </div>
                         <p className="text-xs">{chapter.updated_at}</p>
                       </div>
                     );

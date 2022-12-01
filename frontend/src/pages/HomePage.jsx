@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import HotKomikUpdate from "../components/HotKomikUpdate";
 import PopularManga from "../components/PopularManga";
 import RilisanTerbaru from "../components/RilisanTerbaru";
-import {
-  getHome,
-  getHotKomikUpdate,
-  getPopularManga,
-  getRilisanTerbaru,
-} from "../sources/api";
+import { getHome } from "../sources/api";
 
 const HomePage = () => {
   const [hotKomikUpdate, setHotKomikUpdate] = useState([]);
   const [rilisanTerbaru, setRilisanTerbaru] = useState([]);
   const [popularManga, setPopularManga] = useState([]);
+
+  const searchQuery = useRef();
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    const url = `/search/${searchQuery.current.value}`;
+    navigate(url);
+  };
+
   useEffect(() => {
     getHome().then((response) => {
       if (response.data.status) {
@@ -21,28 +26,21 @@ const HomePage = () => {
         setPopularManga(response.data.popular_manga);
       }
     });
-    // getHotKomikUpdate().then((response) => {
-    //   if (response.data.status) {
-    //     setHotKomikUpdate(response.data.response);
-    //   }
-    // });
-    // getRilisanTerbaru().then((response) => {
-    //   if (response.data.status) {
-    //     setRilisanTerbaru(response.data.response);
-    //   }
-    // });
-    // getPopularManga().then((response) => {
-    //   if (response.data.status) {
-    //     setPopularManga(response.data.response);
-    //   }
-    // });
   }, []);
   return (
     <div className="w-screen min-h-screen">
       <div className="bg-sky-500 w-screen p-4 flex justify-between place-items-center">
-        <p className="text-white text-2xl">kumik</p>
+        <a href="/" className="text-white text-2xl">
+          kumik
+        </a>
         <input
           type="text"
+          ref={searchQuery}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
+          }}
           placeholder="Cari..."
           className="placeholder:text-sky-700 py-1 px-2 rounded bg-sky-300 text-sky-700"
         />

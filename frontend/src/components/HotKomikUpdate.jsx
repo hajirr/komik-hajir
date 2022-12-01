@@ -1,4 +1,16 @@
+import { useNavigate } from "react-router-dom";
+
 const HotKomikUpdate = ({ hotKomikUpdate }) => {
+  const navigate = useNavigate();
+
+  const handleClick = (url) => {
+    const arrayPath = url.split("/");
+    const komik = `/${arrayPath[arrayPath.length - 3]}/${
+      arrayPath[arrayPath.length - 2]
+    }/`;
+    navigate(komik);
+  };
+
   return (
     <div className="p-2 border-solid border border-sky-500 rounded-lg">
       <div className="font-semibold text-sky-500 text-sm">HOT KOMIK UPDATE</div>
@@ -6,7 +18,10 @@ const HotKomikUpdate = ({ hotKomikUpdate }) => {
       <div className="flex space-x-2 justify-between overflow-x-auto">
         {hotKomikUpdate.map((response) => {
           return (
-            <a href={response.url}>
+            <div
+              className="cursor-pointer"
+              onClick={() => handleClick(response.url)}
+            >
               <div key={response.title} className="w-28">
                 <div
                   className="h-40 w-28"
@@ -25,7 +40,7 @@ const HotKomikUpdate = ({ hotKomikUpdate }) => {
                   <p className="text-yellow-500 text-xs">★ {response.rating}</p>
                 </div>
               </div>
-            </a>
+            </div>
           );
         })}
       </div>

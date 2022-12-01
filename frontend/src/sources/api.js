@@ -6,18 +6,14 @@ export const getHome = async () => {
   return axios.get(`${url}/api/home`);
 };
 
-export const getRilisanTerbaru = async () => {
-  return axios.get(`${url}/api/rilisan-terbaru`);
+export const postDetailKomik = (data) => {
+  return axios.post(`${url}/api/komik`, data);
 };
 
-export const getHotKomikUpdate = async () => {
-  return axios.get(`${url}/api/hot-komik-update`);
+export const postBacaKomik = (data) => {
+  return axios.post(`${url}/api/chapter`, data);
 };
 
-export const getPopularManga = async () => {
-  return axios.get(`${url}/api/popular-manga`);
-};
-
-export const postRegister = async (data) => {
-  return axios.post(`${url}/api/register`, data);
+export const postSearch = (data) => {
+  return axios.post(`${url}/api/search`, data);
 };
