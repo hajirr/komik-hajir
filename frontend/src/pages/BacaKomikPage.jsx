@@ -4,8 +4,11 @@ import { postBacaKomik } from "../sources/api";
 
 const BacaKomikPage = () => {
   const [daftarChapter, setDaftarChapter] = useState({
+    title: "",
+    detail_komik: "",
     gambar: [],
     navigasi: [],
+    list: [],
   });
   const [isLoading, setIsLoading] = useState(false);
   const komikUrl = process.env.REACT_APP_BASE_KOMIK_URL;
@@ -33,13 +36,17 @@ const BacaKomikPage = () => {
     navigate(komik);
   };
 
+  const handleSelected = (url) => {
+    const arrayPath = url.split("/");
+    const komik = `/${arrayPath[arrayPath.length - 3]}/${
+      arrayPath[arrayPath.length - 2]
+    }/`;
+    navigate(komik);
+  };
+
   useEffect(() => {
     setIsLoading(true);
-    const body = {
-      url: `${komikUrl}${komik}`,
-    };
     formData.append("url", `${komikUrl}${komik}`);
-    console.log(body.url);
     postBacaKomik(formData)
       .then((response) => {
         setDaftarChapter(response.data.response);
@@ -79,23 +86,58 @@ const BacaKomikPage = () => {
           className="placeholder:text-sky-700 py-1 px-2 rounded bg-sky-300 text-sky-700"
         />
       </div>
-      <div className="lg:mx-32 p-4 shadow-lg rounded-lg flex flex-col justify-center place-items-center">
-        {daftarChapter.gambar.map((response) => {
-          return <img src={response.url} alt="chapter" />;
-        })}
+
+      <div className="lg:mx-32 p-4 shadow-lg rounded-lg flex flex-col justify-center place-items-center ">
+        <p className="font-bold text-2xl">{daftarChapter.title}</p>
+        <p className="text-gray-400 text-sm">
+          Semua chapter ada di{" "}
+          <span
+            className="cursor-pointer text-sky-500"
+            onClick={() => handleNavigasi(daftarChapter.detail_komik)}
+          >
+            sini
+          </span>{" "}
+        </p>
+
+        <select
+          className="rounded bg-sky-500 text-white px-2 py-1 text-sm mt-5 mb-4"
+          name="chapter"
+          onChange={(e) => handleSelected(e.target.value)}
+        >
+          <option>Pilih Chapter</option>
+          {daftarChapter.list.map((response) => {
+            return <option value={response.url}>{response.title}</option>;
+          })}
+        </select>
+        <div className="mt-4">
+          {daftarChapter.gambar.map((response) => {
+            return <img src={response.url} alt="chapter" />;
+          })}
+        </div>
       </div>
-      <div className="flex justify-center space-x-4 my-4">
-        {daftarChapter.navigasi.map((response) => {
-          return (
-            <div
-              onClick={() => handleNavigasi(response.url)}
-              className="rounded px-4 py-1 bg-sky-500 text-white cursor-pointer"
-            >
-              {/* <p>{response.title}</p> */}
-              <p>{response.title.replace("Â", " ")}</p>
-            </div>
-          );
-        })}
+      <div className="flex justify-between place-items-center lg:mx-32">
+        <select
+          className="rounded bg-sky-500 text-white px-2 py-1 text-sm mt-10 mb-4"
+          name="chapter"
+          onChange={(e) => handleSelected(e.target.value)}
+        >
+          <option>Pilih Chapter</option>
+          {daftarChapter.list.map((response) => {
+            return <option value={response.url}>{response.title}</option>;
+          })}
+        </select>
+        <div className="flex justify-center space-x-4 my-4">
+          {daftarChapter.navigasi.map((response) => {
+            return (
+              <div
+                onClick={() => handleNavigasi(response.url)}
+                className="rounded px-4 py-1 bg-sky-500 text-white cursor-pointer text-sm"
+              >
+                <p>{response.title.replace("Â", " ")}</p>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

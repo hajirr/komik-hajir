@@ -1,4 +1,16 @@
+import { useNavigate } from "react-router-dom";
+
 const PopularManga = ({ popularManga }) => {
+  const navigate = useNavigate();
+
+  const handleClick = (url) => {
+    const arrayPath = url.split("/");
+    const komik = `/${arrayPath[arrayPath.length - 3]}/${
+      arrayPath[arrayPath.length - 2]
+    }/`;
+    navigate(komik);
+  };
+
   return (
     <div className="p-2 border-solid border border-sky-500 rounded-lg h-max">
       <div className="font-semibold text-sky-500 text-sm">POPULAR MANGA</div>
@@ -6,7 +18,10 @@ const PopularManga = ({ popularManga }) => {
       <div className="flex flex-col space-y-2">
         {popularManga.map((response) => {
           return (
-            <a href={response.url}>
+            <div
+              className="cursor-pointer"
+              onClick={() => handleClick(response.url)}
+            >
               <div key={response.title} className=" flex space-x-4">
                 <div
                   className="h-28 w-20"
@@ -27,7 +42,7 @@ const PopularManga = ({ popularManga }) => {
                   </div>
                 </div>
               </div>
-            </a>
+            </div>
           );
         })}
       </div>
