@@ -192,8 +192,13 @@ def chapter():
 
     main_reading_area = soup.find_all('div', class_="main-reading-area")
     title = soup.find('h1').text
+    chapter_nav_control = soup.find_all('div', class_="chapter_nav-control")
+    title_komik = soup.find('h1').text
+    detail_komik = soup.find('div', class_='allc')
+    url_komik = detail_komik.find('a')
 
     daftar_gambar = []
+    daftar_chapter = []
 
     class_nextprev = soup.find_all('div', class_='nextprev')
     for nextprev in class_nextprev:
@@ -207,7 +212,16 @@ def chapter():
         for img in image.find_all('img'):
             url = img['src']
             daftar_gambar.append({'url': url, 'title': title})
-    chapter = {'gambar': daftar_gambar, 'navigasi': navigasi}
+
+    first_index_of_chapter_nav_control = 0
+    for nav_control in chapter_nav_control:
+        if first_index_of_chapter_nav_control == 0 :
+            options = nav_control.find_all('option')
+            for option in options:
+                daftar_chapter.append({'title': option.text, 'url': option['value']})
+        first_index_of_chapter_nav_control += 1
+
+    chapter = {'title': title_komik, 'detail_komik': url_komik['href'], 'gambar': daftar_gambar, 'navigasi': navigasi, 'list': daftar_chapter}
 
     return jsonify({
         'status': True,
