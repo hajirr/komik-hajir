@@ -195,12 +195,21 @@ def chapter():
 
     daftar_gambar = []
 
+    class_nextprev = soup.find_all('div', class_='nextprev')
+    for nextprev in class_nextprev:
+        tag_a = nextprev.find_all('a')
+        navigasi = []
+        for a in tag_a:
+            navigasi.append(
+                {'ke': '{}'.format(a['rel'][0]), 'url': '{}'.format(a['href']), 'title': a.text})
+
     for image in main_reading_area:
         for img in image.find_all('img'):
             url = img['src']
             daftar_gambar.append({'url': url, 'title': title})
+    chapter = {'gambar': daftar_gambar, 'navigasi': navigasi}
 
     return jsonify({
         'status': True,
-        'response': daftar_gambar,
+        'response': chapter,
     })
