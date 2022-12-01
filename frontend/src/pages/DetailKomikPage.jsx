@@ -4,6 +4,7 @@ import { postDetailKomik } from "../sources/api";
 
 const DetailKomikPage = () => {
   const [daftarChapter, setDaftarChapter] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const komikUrl = process.env.REACT_APP_BASE_KOMIK_URL;
 
   const { pathname } = window.location;
@@ -31,6 +32,7 @@ const DetailKomikPage = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const body = {
       url: `${komikUrl}${komik}`,
     };
@@ -39,11 +41,21 @@ const DetailKomikPage = () => {
     postDetailKomik(formData)
       .then((response) => {
         setDaftarChapter(response.data.response);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="w-screen min-h-screen flex justify-center place-items-center">
+        Loading
+      </div>
+    );
+  }
 
   return (
     <div className="w-screen min-h-screen">
@@ -63,7 +75,7 @@ const DetailKomikPage = () => {
           className="placeholder:text-sky-700 py-1 px-2 rounded bg-sky-300 text-sky-700"
         />
       </div>
-      <div className="mx-32 p-4 shadow-lg rounded-lg">
+      <div className="lg:mx-32 p-4 shadow-lg rounded-lg">
         <div className="border-b mb-4 py-2 text-sky-500">
           <p>Chapter</p>
         </div>

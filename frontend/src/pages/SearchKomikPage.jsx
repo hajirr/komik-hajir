@@ -56,7 +56,7 @@ const SearchKomikPage = () => {
           className="placeholder:text-sky-700 py-1 px-2 rounded bg-sky-300 text-sky-700"
         />
       </div>
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+      <div className="lg:mx-32 p-4 shadow-lg grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {daftarKomik.map((response) => {
           return (
             <div
