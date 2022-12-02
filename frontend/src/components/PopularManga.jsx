@@ -12,7 +12,7 @@ const PopularManga = ({ popularManga }) => {
   };
 
   return (
-    <div className="p-2 border-solid border border-sky-500 rounded-lg h-max">
+    <div className="p-2 pb-4 border-solid border border-sky-500 rounded-lg h-max">
       <div className="font-semibold text-sky-500 text-sm">POPULAR MANGA</div>
       <div className="bg-sky-500 w-full mt-1 mb-3" style={{ height: 1 }}></div>
       <div className="flex flex-col space-y-2">

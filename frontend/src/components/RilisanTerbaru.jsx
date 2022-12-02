@@ -20,7 +20,7 @@ const RilisanTerbaru = ({ rilisanTerbaru }) => {
   };
 
   return (
-    <div className="p-2 border-solid border border-sky-500 rounded-lg w-full">
+    <div className="p-2 pb-4 border-solid border border-sky-500 rounded-lg w-full">
       <div className="font-semibold text-sky-500 text-sm">RILISAN TERBARU</div>
       <div className="bg-sky-500 w-full mt-1 mb-3" style={{ height: 1 }}></div>
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">

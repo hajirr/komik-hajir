@@ -15,7 +15,7 @@ const HotKomikUpdate = ({ hotKomikUpdate }) => {
     <div className="p-2 border-solid border border-sky-500 rounded-lg">
       <div className="font-semibold text-sky-500 text-sm">HOT KOMIK UPDATE</div>
       <div className="bg-sky-500 w-full mt-1 mb-3" style={{ height: 1 }}></div>
-      <div className="flex space-x-2 justify-between overflow-x-auto">
+      <div className="flex space-x-2 justify-between overflow-x-auto pb-4">
         {hotKomikUpdate.map((response) => {
           return (
             <div
