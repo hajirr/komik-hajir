@@ -156,8 +156,17 @@ def detail():
         soup = BeautifulSoup(detail_page.text, 'html.parser')
 
         chapter_wrapper = soup.find_all('ul', id="chapter-wrapper")
+        title_komik = soup.find('h1').text
+        image = soup.find('img', class_='komik_info-content-thumbnail-image')
+        released = soup.find(
+            'span', class_='komik_info-content-info-release').text
+        komik_info_content_info = soup.find_all(
+            'span', class_='komik_info-content-info')
+        genre_item = soup.find_all('a', class_='genre-item')
 
         daftar_chapter = []
+        info_komik = []
+        genres = []
 
         for chapter in chapter_wrapper:
             updated_at = []
@@ -171,9 +180,16 @@ def detail():
                     {'url': url, 'title': title, 'updated_at': updated_at[updated_at_index]})
                 updated_at_index += 1
 
+        info_komik.append(released)
+        for info in komik_info_content_info:
+            info_komik.append(info.text)
+
+        for genre in genre_item:
+            genres.append(genre.text)
+
         return jsonify({
             'status': True,
-            'response': daftar_chapter,
+            'response': {'title': title_komik, 'genre': genres, 'info_komik': info_komik, 'image': image['src'], 'daftar_chapter': daftar_chapter},
         })
     except NameError as e:
         return jsonify({
@@ -215,13 +231,15 @@ def chapter():
 
     first_index_of_chapter_nav_control = 0
     for nav_control in chapter_nav_control:
-        if first_index_of_chapter_nav_control == 0 :
+        if first_index_of_chapter_nav_control == 0:
             options = nav_control.find_all('option')
             for option in options:
-                daftar_chapter.append({'title': option.text, 'url': option['value']})
+                daftar_chapter.append(
+                    {'title': option.text, 'url': option['value']})
         first_index_of_chapter_nav_control += 1
 
-    chapter = {'title': title_komik, 'detail_komik': url_komik['href'], 'gambar': daftar_gambar, 'navigasi': navigasi, 'list': daftar_chapter}
+    chapter = {'title': title_komik, 'detail_komik': url_komik['href'],
+               'gambar': daftar_gambar, 'navigasi': navigasi, 'list': daftar_chapter}
 
     return jsonify({
         'status': True,
