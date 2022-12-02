@@ -33,15 +33,10 @@ const DetailKomikPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    const body = {
-      url: `${komikUrl}${komik}`,
-    };
     formData.append("url", `${komikUrl}${komik}`);
-    console.log(body.url);
     postDetailKomik(formData)
       .then((response) => {
         setDaftarChapter(response.data.response);
-        console.log(response.data.response);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -61,7 +56,7 @@ const DetailKomikPage = () => {
   return (
     <div className="w-screen min-h-screen">
       <Navbar />
-      <div className="lg:mx-32 p-4 shadow-lg rounded-lg">
+      <div className="lg:mx-96 p-4 shadow-lg rounded-lg">
         <div className="flex flex-wrap mb-4">
           <div className="w-96 pb-4 pr-4">
             <img src={daftarChapter.image} alt="thubnail" />
@@ -90,6 +85,33 @@ const DetailKomikPage = () => {
                 </p>
               );
             })}
+          </div>
+        </div>
+
+        <div className="flex justify-center space-x-4">
+          <div
+            onClick={() =>
+              handleClickChapter(
+                daftarChapter.daftar_chapter[
+                  daftarChapter.daftar_chapter.length - 1
+                ].url
+              )
+            }
+            className="rounded bg-sky-600 text-white px-2 py-1 text-sm cursor-pointer"
+          >
+            {
+              daftarChapter.daftar_chapter[
+                daftarChapter.daftar_chapter.length - 1
+              ]?.title
+            }
+          </div>
+          <div
+            onClick={() =>
+              handleClickChapter(daftarChapter.daftar_chapter[0].url)
+            }
+            className="rounded bg-sky-600 text-white px-2 py-1 text-sm cursor-pointer"
+          >
+            {daftarChapter.daftar_chapter[0]?.title}
           </div>
         </div>
         <div className="border-b mb-4 py-2 text-sky-500">

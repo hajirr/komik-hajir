@@ -45,7 +45,6 @@ const BacaKomikPage = () => {
     postBacaKomik(formData)
       .then((response) => {
         setDaftarChapter(response.data.response);
-        console.log(response.data.response);
         setIsLoading(false);
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       })
@@ -66,7 +65,7 @@ const BacaKomikPage = () => {
   return (
     <div className="w-screen min-h-screen">
       <Navbar />
-      <div className="lg:mx-32 p-4 shadow-lg rounded-lg flex flex-col justify-center place-items-center ">
+      <div className="lg:mx-96 p-4 shadow-lg rounded-lg flex flex-col justify-center place-items-center ">
         <p className="font-bold text-2xl">{daftarChapter.title}</p>
         <p className="text-gray-400 text-sm">
           Semua chapter ada di{" "}
@@ -94,11 +93,18 @@ const BacaKomikPage = () => {
         </select>
         <div className="mt-4">
           {daftarChapter.gambar.map((response) => {
-            return <img key={response.url} src={response.url} alt="chapter" />;
+            return (
+              <img
+                key={response.url}
+                src={response.url}
+                alt="chapter"
+                className="w-full"
+              />
+            );
           })}
         </div>
       </div>
-      <div className="flex justify-between place-items-center lg:mx-32">
+      <div className="flex justify-between place-items-center xl:mx-96">
         <select
           className="rounded bg-sky-500 text-white px-2 py-1 text-sm mt-10 mb-4"
           name="chapter"
