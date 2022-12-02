@@ -9,24 +9,35 @@ const HomePage = () => {
   const [hotKomikUpdate, setHotKomikUpdate] = useState([]);
   const [rilisanTerbaru, setRilisanTerbaru] = useState([]);
   const [popularManga, setPopularManga] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getHome().then((response) => {
-      if (response.data.status) {
-        setHotKomikUpdate(response.data.hot_komik_update);
-        setRilisanTerbaru(response.data.rilisan_terbaru);
-        setPopularManga(response.data.popular_manga);
-      }
-    });
+    setIsLoading(true);
+    getHome()
+      .then((response) => {
+        if (response.data.status) {
+          setHotKomikUpdate(response.data.hot_komik_update);
+          setRilisanTerbaru(response.data.rilisan_terbaru);
+          setPopularManga(response.data.popular_manga);
+        }
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   }, []);
   return (
     <div className="w-screen min-h-screen">
       <Navbar />
       <div className="p-4">
-        <HotKomikUpdate hotKomikUpdate={hotKomikUpdate} />
+        <HotKomikUpdate hotKomikUpdate={hotKomikUpdate} isLoading={isLoading} />
         <div className="flex flex-col justify-between mt-4 space-y-4 md:space-y-0 space-x-0 md:space-x-4 md:flex-row">
-          <RilisanTerbaru rilisanTerbaru={rilisanTerbaru} />
-          <PopularManga popularManga={popularManga} />
+          <RilisanTerbaru
+            rilisanTerbaru={rilisanTerbaru}
+            isLoading={isLoading}
+          />
+          <PopularManga popularManga={popularManga} isLoading={isLoading} />
         </div>
       </div>
     </div>
