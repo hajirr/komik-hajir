@@ -5,6 +5,7 @@ import { postSearch } from "../sources/api";
 
 const SearchKomikPage = () => {
   const [daftarKomik, setDaftarKomik] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { pathname } = window.location;
   const arrayPath = pathname.split("/");
@@ -21,21 +22,23 @@ const SearchKomikPage = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const query = komik.split("%20").join("+");
     formData.append("query", query);
     postSearch(formData)
       .then((response) => {
         setDaftarKomik(response.data.response);
-        console.log(response.data.response);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   }, [pathname]);
   return (
     <div className="w-screen min-h-screen">
       <Navbar />
-      {daftarKomik.length < 1 && (
+      {!isLoading && daftarKomik.length < 1 && (
         <p className="text-center mt-10">Ngga ketemu</p>
       )}
       <div className="lg:mx-32 p-4 shadow-lg grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
