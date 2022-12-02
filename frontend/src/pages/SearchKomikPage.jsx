@@ -35,6 +35,9 @@ const SearchKomikPage = () => {
   return (
     <div className="w-screen min-h-screen">
       <Navbar />
+      {daftarKomik.length < 1 && (
+        <p className="text-center mt-10">Ngga ketemu</p>
+      )}
       <div className="lg:mx-32 p-4 shadow-lg grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {daftarKomik.map((response) => {
           return (
