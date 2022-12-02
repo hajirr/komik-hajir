@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import { postBacaKomik } from "../sources/api";
 
 const BacaKomikPage = () => {
@@ -20,13 +21,7 @@ const BacaKomikPage = () => {
   }`;
   const formData = new FormData();
 
-  const searchQuery = useRef();
   const navigate = useNavigate();
-
-  const handleSearch = () => {
-    const url = `/search/${searchQuery.current.value}/`;
-    navigate(url);
-  };
 
   const handleNavigasi = (url) => {
     const arrayPath = url.split("/");
@@ -70,23 +65,7 @@ const BacaKomikPage = () => {
 
   return (
     <div className="w-screen min-h-screen">
-      <div className="bg-sky-500 w-screen p-4 flex justify-between place-items-center">
-        <a href="/" className="text-white text-2xl">
-          kumik
-        </a>
-        <input
-          type="text"
-          ref={searchQuery}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleSearch();
-            }
-          }}
-          placeholder="Cari..."
-          className="placeholder:text-sky-700 py-1 px-2 rounded bg-sky-300 text-sky-700"
-        />
-      </div>
-
+      <Navbar />
       <div className="lg:mx-32 p-4 shadow-lg rounded-lg flex flex-col justify-center place-items-center ">
         <p className="font-bold text-2xl">{daftarChapter.title}</p>
         <p className="text-gray-400 text-sm">

@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import { postSearch } from "../sources/api";
 
 const SearchKomikPage = () => {
@@ -19,13 +20,6 @@ const SearchKomikPage = () => {
     navigate(komik);
   };
 
-  const searchQuery = useRef();
-
-  const handleSearch = () => {
-    const url = `/search/${searchQuery.current.value}`;
-    navigate(url);
-  };
-
   useEffect(() => {
     const query = komik.split("%20").join("+");
     formData.append("query", query);
@@ -40,22 +34,7 @@ const SearchKomikPage = () => {
   }, [pathname]);
   return (
     <div className="w-screen min-h-screen">
-      <div className="bg-sky-500 w-screen p-4 flex justify-between place-items-center">
-        <a href="/" className="text-white text-2xl">
-          kumik
-        </a>
-        <input
-          type="text"
-          ref={searchQuery}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleSearch();
-            }
-          }}
-          placeholder="Cari..."
-          className="placeholder:text-sky-700 py-1 px-2 rounded bg-sky-300 text-sky-700"
-        />
-      </div>
+      <Navbar />
       <div className="lg:mx-32 p-4 shadow-lg grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {daftarKomik.map((response) => {
           return (

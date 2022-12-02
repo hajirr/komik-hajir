@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import { postDetailKomik } from "../sources/api";
 
 const DetailKomikPage = () => {
@@ -28,13 +29,6 @@ const DetailKomikPage = () => {
       arrayPath[arrayPath.length - 2]
     }/`;
     navigate(chapter);
-  };
-
-  const searchQuery = useRef();
-
-  const handleSearch = () => {
-    const url = `/search/${searchQuery.current.value}`;
-    navigate(url);
   };
 
   useEffect(() => {
@@ -66,22 +60,7 @@ const DetailKomikPage = () => {
 
   return (
     <div className="w-screen min-h-screen">
-      <div className="bg-sky-500 w-screen p-4 flex justify-between place-items-center">
-        <a href="/" className="text-white text-2xl">
-          kumik
-        </a>
-        <input
-          type="text"
-          ref={searchQuery}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleSearch();
-            }
-          }}
-          placeholder="Cari..."
-          className="placeholder:text-sky-700 py-1 px-2 rounded bg-sky-300 text-sky-700"
-        />
-      </div>
+      <Navbar />
       <div className="lg:mx-32 p-4 shadow-lg rounded-lg">
         <div className="flex flex-wrap mb-4">
           <div className="w-96 pb-4 pr-4">
