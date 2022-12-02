@@ -26,7 +26,7 @@ const RilisanTerbaru = ({ rilisanTerbaru }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
         {rilisanTerbaru.map((response) => {
           return (
-            <div key={response.title} className="flex space-x-2 justify-center">
+            <div key={response.url} className="flex space-x-2 justify-center">
               <div
                 className="h-48 w-28 md:w-20 md:h-32 cursor-pointer"
                 style={{
@@ -45,7 +45,10 @@ const RilisanTerbaru = ({ rilisanTerbaru }) => {
                 <div className="flex flex-col space-y-2">
                   {response.chapter.map((chapter) => {
                     return (
-                      <div className="flex place-items-center justify-between cursor-pointer">
+                      <div
+                        key={chapter.url}
+                        className="flex place-items-center justify-between cursor-pointer"
+                      >
                         <div
                           className="bg-sky-200 p-1 rounded "
                           onClick={() => handleClickChapter(chapter.url)}

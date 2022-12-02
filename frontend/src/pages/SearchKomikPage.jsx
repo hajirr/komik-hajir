@@ -62,6 +62,7 @@ const SearchKomikPage = () => {
             <div
               className="cursor-pointer"
               onClick={() => handleClick(response.url)}
+              key={response.url}
             >
               <div key={response.title} className="w-28">
                 <div

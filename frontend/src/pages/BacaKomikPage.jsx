@@ -106,12 +106,16 @@ const BacaKomikPage = () => {
         >
           <option>Pilih Chapter</option>
           {daftarChapter.list.map((response) => {
-            return <option value={response.url}>{response.title}</option>;
+            return (
+              <option key={response.url} value={response.url}>
+                {response.title}
+              </option>
+            );
           })}
         </select>
         <div className="mt-4">
           {daftarChapter.gambar.map((response) => {
-            return <img src={response.url} alt="chapter" />;
+            return <img key={response.url} src={response.url} alt="chapter" />;
           })}
         </div>
       </div>
@@ -123,7 +127,11 @@ const BacaKomikPage = () => {
         >
           <option>Pilih Chapter</option>
           {daftarChapter.list.map((response) => {
-            return <option value={response.url}>{response.title}</option>;
+            return (
+              <option key={response.url} value={response.url}>
+                {response.title}
+              </option>
+            );
           })}
         </select>
         <div className="flex justify-center space-x-4 my-4">
@@ -132,6 +140,7 @@ const BacaKomikPage = () => {
               <div
                 onClick={() => handleNavigasi(response.url)}
                 className="rounded px-4 py-1 bg-sky-500 text-white cursor-pointer text-sm"
+                key={response.url}
               >
                 <p>{response.title.replace("Â", " ")}</p>
               </div>

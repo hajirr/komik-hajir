@@ -21,6 +21,7 @@ const PopularManga = ({ popularManga }) => {
             <div
               className="cursor-pointer"
               onClick={() => handleClick(response.url)}
+              key={response.url}
             >
               <div key={response.title} className=" flex space-x-4">
                 <div
@@ -36,8 +37,12 @@ const PopularManga = ({ popularManga }) => {
                   </p>
                   <div className="flex flex-wrap w-40 text-gray-400 text-xs">
                     <span className="mr-2 text-black">Genres :</span>
-                    {response.genre.map((response) => {
-                      return <span className="mr-2">{response}</span>;
+                    {response.genre.map((genre) => {
+                      return (
+                        <span key={genre} className="mr-2">
+                          {genre}
+                        </span>
+                      );
                     })}
                   </div>
                 </div>

@@ -92,7 +92,10 @@ const DetailKomikPage = () => {
             <div className="flex flex-wrap sm:grid-cols-2 gap-2 mt-2 mb-6">
               {daftarChapter.genre.map((genre) => {
                 return (
-                  <div className="rounded bg-sky-600 text-white px-2 py-1 h-max w-max">
+                  <div
+                    key={genre}
+                    className="rounded bg-sky-600 text-white px-2 py-1 h-max w-max"
+                  >
                     <p className="text-xs">{genre}</p>
                   </div>
                 );
@@ -100,7 +103,7 @@ const DetailKomikPage = () => {
             </div>
             {daftarChapter.info_komik.map((info) => {
               return (
-                <p className="text-sm text-gray-400">
+                <p key={info} className="text-sm text-gray-400">
                   {info.split(":")[0]}:
                   <span className="text-sky-500 font-semibold">
                     {info.split(":")[1]}
@@ -118,6 +121,7 @@ const DetailKomikPage = () => {
             <div
               className="cursor-pointer flex space-x-2 text-xs w-full justify-between border-b mb-2 py-2 font-semibold"
               onClick={() => handleClickChapter(response.url)}
+              key={response.url}
             >
               <p>{response.title}</p> <p>{response.updated_at}</p>
             </div>

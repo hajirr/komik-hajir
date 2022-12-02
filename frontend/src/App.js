@@ -2,12 +2,12 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Loading from "./components/Loading";
 import { ContextProvider } from "./contexts/ContextProvider";
-import DaftarKomikPage from "./pages/DaftarKomikPage";
-import SearchKomikPage from "./pages/SearchKomikPage";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const DetailKomikPage = lazy(() => import("./pages/DetailKomikPage"));
 const BacaKomikPage = lazy(() => import("./pages/BacaKomikPage"));
+const SearchKomikPage = lazy(() => import("./pages/SearchKomikPage"));
+const DaftarKomikPage = lazy(() => import("./pages/DaftarKomikPage"));
 
 function App() {
   return (
