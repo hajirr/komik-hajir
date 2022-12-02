@@ -38,7 +38,7 @@ const Navbar = () => {
             className="w-20 sm:w-max bg-transparent placeholder:text-sky-700  py-1 px-2 focus:outline-0"
           />
           <button onClick={handleSearch}>
-            <i class="fa fa-search"></i>
+            <i className="fa fa-search"></i>
           </button>
         </div>
       </div>
