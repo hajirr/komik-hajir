@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'kuhaku2022'
 
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
