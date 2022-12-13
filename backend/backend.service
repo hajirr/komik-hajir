@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve baubawang
+After=network.target 
+
+[Service]
+User=baubawang
+Group=www-data
+WorkingDirectory=/root/komik-hajir/backend
+Environment="PATH=/root/komik-hajir/backend/env/bin"
+ExecStart=/root/komik-hajir/backend/env/bin/uwsgi -- ini backend.ini
+
+[Install]
+WantedBy=multi-user.target
