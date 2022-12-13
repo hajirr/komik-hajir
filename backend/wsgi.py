@@ -1,4 +1,4 @@
-from backend import app
+from . import backend
 
 if __name__ == "__main__":
-    app.run()
+    backend.run()

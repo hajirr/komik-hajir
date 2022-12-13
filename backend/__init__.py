@@ -1,6 +1,5 @@
 import requests as req
 from bs4 import BeautifulSoup
-import json
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
@@ -8,6 +7,11 @@ app = Flask(__name__)
 
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({
+        'status': 'success',
+    })
 
 @app.route('/api/home', methods=['GET'])
 def home():
