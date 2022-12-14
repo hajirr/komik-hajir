@@ -13,18 +13,17 @@ const Navbar = () => {
   return (
     <div className="bg-red-700 w-screen p-4 flex justify-between place-items-center sticky top-0">
       <a href="/" className="text-white text-2xl flex">
-        <img
-          src="http://www.colchester-allotments.org.uk/wp-content/uploads/2015/08/onion-300x176.png"
-          alt="onion"
-          width={50}
-        />
-        <span className="text-red-300">BB</span>
+        Home
       </a>
       <div className="flex space-x-4 place-items-center">
-        <a href="https://trakteer.id/kumik" target="_blank" rel="noreferrer">
+        <a
+          href="https://trakteer.id/baubawang"
+          target="_blank"
+          rel="noreferrer"
+        >
           <img
             id="wse-buttons-preview"
-            src="https://cdn.trakteer.id/images/embed/trbtn-green-2.png"
+            src="assets/onion.png"
             height="30"
             style={{ border: 0, height: 30 }}
             alt="Trakteer Saya"
