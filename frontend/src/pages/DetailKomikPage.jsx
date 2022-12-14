@@ -34,6 +34,7 @@ const DetailKomikPage = () => {
   useEffect(() => {
     setIsLoading(true);
     formData.append("url", `${komikUrl}${komik}`);
+    console.log(`${komikUrl}${komik}`);
     postDetailKomik(formData)
       .then((response) => {
         setDaftarChapter(response.data.response);
@@ -68,7 +69,7 @@ const DetailKomikPage = () => {
                 return (
                   <div
                     key={genre}
-                    className="rounded bg-sky-600 text-white px-2 py-1 h-max w-max"
+                    className="rounded bg-red-600 text-white px-2 py-1 h-max w-max"
                   >
                     <p className="text-xs">{genre}</p>
                   </div>
@@ -79,7 +80,7 @@ const DetailKomikPage = () => {
               return (
                 <p key={info} className="text-sm text-gray-400">
                   {info.split(":")[0]}:
-                  <span className="text-sky-500 font-semibold">
+                  <span className="text-red-500 font-semibold">
                     {info.split(":")[1]}
                   </span>
                 </p>
@@ -97,7 +98,7 @@ const DetailKomikPage = () => {
                 ].url
               )
             }
-            className="rounded bg-sky-600 text-white px-2 py-1 text-sm cursor-pointer"
+            className="rounded bg-red-600 text-white px-2 py-1 text-sm cursor-pointer"
           >
             {
               daftarChapter.daftar_chapter[
@@ -109,12 +110,12 @@ const DetailKomikPage = () => {
             onClick={() =>
               handleClickChapter(daftarChapter.daftar_chapter[0].url)
             }
-            className="rounded bg-sky-600 text-white px-2 py-1 text-sm cursor-pointer"
+            className="rounded bg-red-600 text-white px-2 py-1 text-sm cursor-pointer"
           >
             {daftarChapter.daftar_chapter[0]?.title}
           </div>
         </div>
-        <div className="border-b mb-4 py-2 text-sky-500">
+        <div className="border-b mb-4 py-2 text-red-500">
           <p>Chapter</p>
         </div>
         {daftarChapter.daftar_chapter.map((response) => {

@@ -70,7 +70,7 @@ const BacaKomikPage = () => {
         <p className="text-gray-400 text-sm">
           Semua chapter ada di{" "}
           <span
-            className="cursor-pointer text-sky-500"
+            className="cursor-pointer text-red-500"
             onClick={() => handleNavigasi(daftarChapter.detail_komik)}
           >
             sini
@@ -78,7 +78,7 @@ const BacaKomikPage = () => {
         </p>
 
         <select
-          className="rounded bg-sky-500 text-white px-2 py-1 text-sm mt-5 mb-4"
+          className="rounded bg-red-500 text-white px-2 py-1 text-sm mt-5 mb-4"
           name="chapter"
           onChange={(e) => handleSelected(e.target.value)}
         >
@@ -103,10 +103,21 @@ const BacaKomikPage = () => {
             );
           })}
         </div>
-      </div>
-      <div className="flex justify-between place-items-center xl:mx-96">
+        <div className="flex justify-center space-x-4 my-4 mt-10">
+          {daftarChapter.navigasi.map((response) => {
+            return (
+              <div
+                onClick={() => handleNavigasi(response.url)}
+                className="rounded px-4 py-1 bg-red-500 text-white cursor-pointer text-sm"
+                key={response.url}
+              >
+                <p>{response.title.replace("Â", " ")}</p>
+              </div>
+            );
+          })}
+        </div>
         <select
-          className="rounded bg-sky-500 text-white px-2 py-1 text-sm mt-10 mb-4"
+          className="mx-auto rounded bg-red-500 text-white px-2 py-1 text-sm my-5 mb-4"
           name="chapter"
           onChange={(e) => handleSelected(e.target.value)}
         >
@@ -119,19 +130,6 @@ const BacaKomikPage = () => {
             );
           })}
         </select>
-        <div className="flex justify-center space-x-4 my-4">
-          {daftarChapter.navigasi.map((response) => {
-            return (
-              <div
-                onClick={() => handleNavigasi(response.url)}
-                className="rounded px-4 py-1 bg-sky-500 text-white cursor-pointer text-sm"
-                key={response.url}
-              >
-                <p>{response.title.replace("Â", " ")}</p>
-              </div>
-            );
-          })}
-        </div>
       </div>
     </div>
   );
