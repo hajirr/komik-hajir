@@ -1,1 +1,0 @@
-# komik-hajir
