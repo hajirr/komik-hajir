@@ -17,16 +17,15 @@ const Navbar = () => {
       </a>
       <div className="flex space-x-4 place-items-center">
         <a
-          href="https://trakteer.id/baubawang"
+          href="https://trakteer.id/baubawang.com/tip"
           target="_blank"
           rel="noreferrer"
         >
           <img
             id="wse-buttons-preview"
-            src="assets/onion.png"
-            height="30"
-            style={{ border: 0, height: 30 }}
+            src="https://cdn.trakteer.id/images/embed/trbtn-green-2.png"
             alt="Trakteer Saya"
+            width={130}
           />
         </a>
         <div className="flex place-items-center bg-red-300 text-red-700 pr-2 rounded">
