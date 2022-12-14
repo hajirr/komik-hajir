@@ -28,7 +28,7 @@ const RilisanTerbaru = ({ rilisanTerbaru, isLoading }) => {
         {isLoading &&
           list.map((item) => {
             return (
-              <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto">
+              <div className="border border-red-300 shadow rounded-md p-4 max-w-sm w-full mx-auto">
                 <div className="animate-pulse flex space-x-4">
                   <div className="flex py-1 space-x-4">
                     <div className="w-20 h-32 bg-red-700 rounded"></div>
