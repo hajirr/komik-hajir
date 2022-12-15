@@ -58,11 +58,9 @@ const DetailKomikPage = () => {
     <div className="w-screen min-h-screen">
       <Navbar />
       <div className="lg:mx-96 p-4 shadow-lg rounded-lg">
-        <div className="flex flex-wrap mb-4">
-          <div className="w-96 pb-4 pr-4">
-            <img src={daftarChapter.image} alt="thubnail" />
-          </div>
-          <div className="w-72 ">
+        <div className="grid grid-cols-1 lg:grid-cols-2 mb-4">
+          <img src={daftarChapter.image} alt="thubnail" />
+          <div className="ml-0 lg:ml-4">
             <p className="font-semibold text-lg">{daftarChapter.title}</p>
             <div className="flex flex-wrap sm:grid-cols-2 gap-2 mt-2 mb-6">
               {daftarChapter.genre.map((genre) => {
