@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 import Navbar from "../components/Navbar";
 import { postBacaKomik } from "../sources/api";
 
@@ -55,18 +56,14 @@ const BacaKomikPage = () => {
   }, [komik]);
 
   if (isLoading) {
-    return (
-      <div className="w-screen min-h-screen flex justify-center place-items-center">
-        Loading
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
     <div className="w-screen min-h-screen">
       <Navbar />
       <div className="lg:mx-96 p-4 shadow-lg rounded-lg flex flex-col justify-center place-items-center ">
-        <p className="font-bold text-2xl">{daftarChapter.title}</p>
+        <p className="font-bold text-2xl text-center">{daftarChapter.title}</p>
         <p className="text-gray-400 text-sm">
           Semua chapter ada di{" "}
           <span
