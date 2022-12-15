@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 import Navbar from "../components/Navbar";
 import { postDetailKomik } from "../sources/api";
 
@@ -47,11 +48,7 @@ const DetailKomikPage = () => {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="w-screen min-h-screen flex justify-center place-items-center">
-        Loading
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
