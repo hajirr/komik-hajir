@@ -27,6 +27,7 @@ const HomePage = () => {
         setIsLoading(false);
       });
   }, []);
+
   return (
     <div className="w-screen min-h-screen">
       <Navbar />

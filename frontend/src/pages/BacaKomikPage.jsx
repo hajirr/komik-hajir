@@ -55,10 +55,6 @@ const BacaKomikPage = () => {
       });
   }, [komik]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <div className="w-screen min-h-screen">
       <Navbar />

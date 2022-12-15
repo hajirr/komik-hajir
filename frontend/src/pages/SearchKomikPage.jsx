@@ -36,6 +36,7 @@ const SearchKomikPage = () => {
         setIsLoading(false);
       });
   }, [pathname]);
+
   return (
     <div className="w-screen min-h-screen">
       <Navbar />
