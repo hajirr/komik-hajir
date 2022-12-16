@@ -8,6 +8,8 @@ const DetailKomikPage = lazy(() => import("./pages/DetailKomikPage"));
 const BacaKomikPage = lazy(() => import("./pages/BacaKomikPage"));
 const SearchKomikPage = lazy(() => import("./pages/SearchKomikPage"));
 const DaftarKomikPage = lazy(() => import("./pages/DaftarKomikPage"));
+const AnimePage = lazy(() => import("./pages/AnimePage"));
+const DetailAnimePage = lazy(() => import("./pages/DetailAnimePage"));
 
 function App() {
   return (
@@ -29,6 +31,12 @@ function App() {
             </Routes>
             <Routes>
               <Route path="/chapter/:chapter" element={<BacaKomikPage />} />
+            </Routes>
+            <Routes>
+              <Route path="/anime" element={<AnimePage />} />
+            </Routes>
+            <Routes>
+              <Route path="/anime/:anime" element={<DetailAnimePage />} />
             </Routes>
           </Suspense>
         </BrowserRouter>
