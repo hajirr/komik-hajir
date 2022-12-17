@@ -2,6 +2,7 @@ import requests as req
 from bs4 import BeautifulSoup
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
+import json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'kuhaku2022'
@@ -269,9 +270,9 @@ def anime_home():
             a = item.find('a')
             img = item.find('img')
             h2 = item.find('h2')
-            span = item.find('span')
+            span = item.find_all('span')
             new_post.append(
-                {'name': h2.text, 'url': a['href'], 'episode': span.text, 'image': img['src']})
+                {'name': h2.text, 'url': a['href'], 'episode': span[0].text, 'image': img['src'], 'date': span[2].text})
         pagination = []
         pagination_class = soup.find('div', class_="pagination")
         page_current = pagination_class.find(
@@ -324,6 +325,10 @@ def anime_detail():
     soup = BeautifulSoup(home_page.text, "html.parser")
     download_eps = soup.find_all('div', class_='download-eps')
     download_link = []
+    list_of_episodes = []
+    scrolling_ul = soup.find('ul', class_='scrolling')
+    li_scrolling = scrolling_ul.find_all('li')
+    entry_title = soup.find('h1', class_='entry-title').text
     for download_eps_item in download_eps:
         p = download_eps_item.find('p')
         ul = download_eps_item.find_all('ul')
@@ -336,16 +341,25 @@ def anime_detail():
                 provider_list = []
                 for span_item in span:
                     a = span_item.find('a')
-                    provider_list.append(
-                        {'url': a['href'], 'provider': a.text})
+                    if a != None:
+                        provider_list.append(
+                            {'url': a['href'], 'provider': a.text})
+                    else :
+                        provider_list.append(
+                            {'url': '', 'provider': ''})
                 link.append(
                     {'resolusi': resolusi, 'provider_list': provider_list})
         download_link.append(
             {'ekstensi': p.text, 'daftar_link': link})
+    for item_li_scrolling in li_scrolling:
+        a = item_li_scrolling.find('a')
+        img = item_li_scrolling.find('img')
+        date = item_li_scrolling.find('span', class_='date').text
+        list_of_episodes.append({'image': img['src'], 'title': img['alt'], 'url': a['href'], 'date': date})
 
     return jsonify({
         'status': True,
-        'response': download_link,
+        'response': {'entry_title': entry_title, 'download_link': download_link, 'list_of_episodes': list_of_episodes}
     })
 
 

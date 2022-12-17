@@ -50,13 +50,14 @@ const AnimePage = () => {
     <div className="w-screen min-h-screen">
       <Navbar />
       <div className="lg:mx-72 p-4 shadow-lg rounded-lg flex flex-col justify-center place-items-center ">
-        <p className="font-bold">Episode Anime Terbaru</p>
+        <p className="font-bold text-lg">Episode Anime Terbaru</p>
         {isLoading && (
-          <div className="grid grid-cols-4 gap-4 my-4 w-full">
+          <div className="grid grid-cols-2 gap-4 my-4 w-full">
             {skeletonList.map((item) => {
               return (
                 <div className="">
                   <div className="animate-pulse h-32 bg-gray-400 rounded"></div>
+                  <div className="animate-pulse h-3 bg-gray-400 rounded mt-2"></div>
                   <div className="animate-pulse h-3 bg-gray-400 rounded mt-2"></div>
                 </div>
               );
@@ -64,17 +65,18 @@ const AnimePage = () => {
           </div>
         )}
         {!isLoading && (
-          <div className="grid grid-cols-4 gap-4 my-4 w-full">
+          <div className=" my-4 grid grid-cols-2 ">
             {listAnime.map((response) => {
               return (
                 <div
                   key={response.url}
-                  className="flex flex-col space-y-2 cursor-pointer"
+                  className="flex flex-col space-y-2 mx-2 mb-4 cursor-pointer"
                   onClick={() => handleClickDetail(response.url)}
                 >
                   <img src={response.image} alt="thumbnail" />
                   <div className="">
-                    <p className="truncate text-sm">{response.name}</p>
+                    <p className="text-sm font-bold">{response.name}</p>
+                    <p className="text-xs text-gray-400">{response.date}</p>
                   </div>
                 </div>
               );

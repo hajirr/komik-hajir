@@ -32,6 +32,19 @@ const HomePage = () => {
     <div className="w-screen min-h-screen">
       <Navbar />
       <div className="p-4">
+        <a
+          href="https://trakteer.id/baubawang.com/tip"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img
+            id="wse-buttons-preview"
+            src="https://cdn.trakteer.id/images/embed/trbtn-green-2.png"
+            alt="Trakteer Saya"
+            width={130}
+          />
+        </a>
+        <div className="h-4"></div>
         <HotKomikUpdate hotKomikUpdate={hotKomikUpdate} isLoading={isLoading} />
         <div className="flex flex-col justify-between mt-4 space-y-4 md:space-y-0 space-x-0 md:space-x-4 md:flex-row">
           <RilisanTerbaru
