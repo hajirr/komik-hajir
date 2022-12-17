@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import json
+import cloudscraper
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'kuhaku2022'
@@ -258,12 +259,12 @@ def chapter():
 @app.route('/api/anime/new', methods=['GET', 'POST'])
 def anime_home():
     if request.method == 'GET':
+        scraper = cloudscraper.create_scraper(delay=10, browser='chrome') 
         url = "https://samehadaku.win/anime-terbaru/"
-        home_page = req.get(url)
+        info = scraper.get(url).text
 
-        soup = BeautifulSoup(home_page.text, "html.parser")
+        soup = BeautifulSoup(info, "html.parser")
         post_show = soup.find('div', class_='post-show')
-        print(post_show)
         li = post_show.find_all('li')
         new_post = []
         for item in li:
@@ -287,10 +288,11 @@ def anime_home():
             'pagination': pagination
         })
     if request.method == 'POST':
+        scraper = cloudscraper.create_scraper(delay=10, browser='chrome') 
         url = request.form.get('url')
-        home_page = req.get(url)
+        info = scraper.get(url).text
 
-        soup = BeautifulSoup(home_page.text, "html.parser")
+        soup = BeautifulSoup(info, "html.parser")
         post_show = soup.find('div', class_='post-show')
         li = post_show.find_all('li')
         new_post = []
@@ -318,11 +320,11 @@ def anime_home():
 
 @app.route('/api/anime/detail', methods=['POST'])
 def anime_detail():
+    scraper = cloudscraper.create_scraper(delay=10, browser='chrome') 
     url = request.form.get('url')
+    info = scraper.get(url).text
 
-    home_page = req.get(url)
-
-    soup = BeautifulSoup(home_page.text, "html.parser")
+    soup = BeautifulSoup(info, "html.parser")
     download_eps = soup.find_all('div', class_='download-eps')
     download_link = []
     list_of_episodes = []
