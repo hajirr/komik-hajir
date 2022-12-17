@@ -258,12 +258,12 @@ def chapter():
 @app.route('/api/anime/new', methods=['GET', 'POST'])
 def anime_home():
     if request.method == 'GET':
-
         url = "https://samehadaku.win/anime-terbaru/"
         home_page = req.get(url)
 
         soup = BeautifulSoup(home_page.text, "html.parser")
         post_show = soup.find('div', class_='post-show')
+        print(post_show)
         li = post_show.find_all('li')
         new_post = []
         for item in li:
@@ -298,9 +298,9 @@ def anime_home():
             a = item.find('a')
             img = item.find('img')
             h2 = item.find('h2')
-            span = item.find('span')
+            span = item.find_all('span')
             new_post.append(
-                {'name': h2.text, 'url': a['href'], 'episode': span.text, 'image': img['src']})
+                {'name': h2.text, 'url': a['href'], 'episode': span[0].text, 'image': img['src'], 'date': span[2].text})
         pagination = []
         pagination_class = soup.find('div', class_="pagination")
         page_current = pagination_class.find(
