@@ -2,8 +2,6 @@ import requests as req
 from bs4 import BeautifulSoup
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-import json
-import cloudscraper
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'kuhaku2022'
@@ -256,112 +254,144 @@ def chapter():
     })
 
 
-@app.route('/api/anime/new', methods=['GET', 'POST'])
-def anime_home():
+@app.route('/api/anime/op_home', methods=['GET', 'POST'])
+def op_home():
     if request.method == 'GET':
-        scraper = cloudscraper.create_scraper(delay=10, browser='chrome') 
-        url = "https://samehadaku.win/anime-terbaru/"
-        info = scraper.get(url).text
+        url = "https://15.235.11.45"
+        home_page = req.get(url)
 
-        soup = BeautifulSoup(info, "html.parser")
-        post_show = soup.find('div', class_='post-show')
-        li = post_show.find_all('li')
-        new_post = []
-        for item in li:
-            a = item.find('a')
-            img = item.find('img')
-            h2 = item.find('h2')
-            span = item.find_all('span')
-            new_post.append(
-                {'name': h2.text, 'url': a['href'], 'episode': span[0].text, 'image': img['src'], 'date': span[2].text})
-        pagination = []
-        pagination_class = soup.find('div', class_="pagination")
-        page_current = pagination_class.find(
-            'span', class_="page-numbers current")
-        pagination.append({'url': '', 'text': page_current.text})
-        a = pagination_class.find_all('a', class_="arrow_pag")
-        for item in a:
-            pagination.append({'url': item['href'], 'text': item.text})
+        soup = BeautifulSoup(home_page.text, "html.parser")
+
+        list_hot_update = []
+        list_latest_updated = []
+
+        styleegg_articles = soup.find_all('article', class_='bs styleegg')
+        stylesix_articles = soup.find_all('article', class_='stylesix')
+
+        for item_styleegg in styleegg_articles:
+            h2 = item_styleegg.find('h2')
+            img = item_styleegg.find('img')
+            a = item_styleegg.find('a')
+            title = h2.text
+            list_hot_update.append(
+                {'title': title, 'image': img['src'], 'url': a['href']})
+
+        for item_stylesix in stylesix_articles:
+            h2 = item_stylesix.find('h2')
+            img = item_stylesix.find('img')
+            a = item_stylesix.find('a')
+            scr = item_stylesix.find('span', class_='scr')
+            title = h2.text
+            score = scr.text
+            li = item_stylesix.find_all('li')
+            info = []
+            for item_li in li:
+                if 'Posted' not in item_li.text:
+                    info.append(item_li.text.capitalize())
+            list_latest_updated.append(
+                {'title': title, 'image': img['src'], 'url': a['href'], 'score': score, 'info': info})
+
+        hpage = soup.find('div', class_='hpage')
+        navigate = []
+        a = hpage.find_all('a')
+        for item_a in a:
+            navigate.append({'title': item_a.text, 'url': item_a['href']})
+
         return jsonify({
             'status': True,
-            'response': new_post,
-            'pagination': pagination
+            'response': {'hot': list_hot_update, 'latest': list_latest_updated, 'navigate': navigate}
         })
     if request.method == 'POST':
-        scraper = cloudscraper.create_scraper(delay=10, browser='chrome') 
         url = request.form.get('url')
-        info = scraper.get(url).text
+        home_page = req.get(url)
 
-        soup = BeautifulSoup(info, "html.parser")
-        post_show = soup.find('div', class_='post-show')
-        li = post_show.find_all('li')
-        new_post = []
-        for item in li:
-            a = item.find('a')
-            img = item.find('img')
-            h2 = item.find('h2')
-            span = item.find_all('span')
-            new_post.append(
-                {'name': h2.text, 'url': a['href'], 'episode': span[0].text, 'image': img['src'], 'date': span[2].text})
-        pagination = []
-        pagination_class = soup.find('div', class_="pagination")
-        page_current = pagination_class.find(
-            'span', class_="page-numbers current")
-        pagination.append({'url': '', 'text': page_current.text})
-        a = pagination_class.find_all('a', class_='arrow_pag')
-        for item in a:
-            pagination.append({'url': item['href'], 'text': item.text})
+        soup = BeautifulSoup(home_page.text, "html.parser")
+
+        list_hot_update = []
+        list_latest_updated = []
+
+        styleegg_articles = soup.find_all('article', class_='bs styleegg')
+        stylesix_articles = soup.find_all('article', class_='stylesix')
+
+        for item_styleegg in styleegg_articles:
+            h2 = item_styleegg.find('h2')
+            img = item_styleegg.find('img')
+            a = item_styleegg.find('a')
+            title = h2.text
+            list_hot_update.append(
+                {'title': title, 'image': img['src'], 'url': a['href']})
+
+        for item_stylesix in stylesix_articles:
+            h2 = item_stylesix.find('h2')
+            img = item_stylesix.find('img')
+            a = item_stylesix.find('a')
+            scr = item_stylesix.find('span', class_='scr')
+            title = h2.text
+            score = scr.text
+            li = item_stylesix.find_all('li')
+            info = []
+            for item_li in li:
+                if 'Posted' not in item_li.text:
+                    info.append(item_li.text.capitalize())
+            list_latest_updated.append(
+                {'title': title, 'image': img['src'], 'url': a['href'], 'score': score, 'info': info})
+
+        hpage = soup.find('div', class_='hpage')
+        navigate = []
+        a = hpage.find_all('a')
+        for item_a in a:
+            navigate.append({'title': item_a.text, 'url': item_a['href']})
+
         return jsonify({
             'status': True,
-            'response': new_post,
-            'pagination': pagination
+            'response': {'hot': list_hot_update, 'latest': list_latest_updated, 'navigate': navigate}
         })
 
 
-@app.route('/api/anime/detail', methods=['POST'])
-def anime_detail():
-    scraper = cloudscraper.create_scraper(delay=10, browser='chrome') 
+@app.route('/api/anime/op_detail', methods=['POST'])
+def op_detail():
     url = request.form.get('url')
-    info = scraper.get(url).text
 
-    soup = BeautifulSoup(info, "html.parser")
-    download_eps = soup.find_all('div', class_='download-eps')
-    download_link = []
-    list_of_episodes = []
-    scrolling_ul = soup.find('ul', class_='scrolling')
-    li_scrolling = scrolling_ul.find_all('li')
-    entry_title = soup.find('h1', class_='entry-title').text
-    for download_eps_item in download_eps:
-        p = download_eps_item.find('p')
-        ul = download_eps_item.find_all('ul')
-        link = []
-        for ul_item in ul:
-            li = ul_item.find_all('li')
-            for li_item in li:
-                resolusi = li_item.find('strong').text
-                span = li_item.find_all('span')
-                provider_list = []
-                for span_item in span:
-                    a = span_item.find('a')
-                    if a != None:
-                        provider_list.append(
-                            {'url': a['href'], 'provider': a.text})
-                    else :
-                        provider_list.append(
-                            {'url': '', 'provider': ''})
-                link.append(
-                    {'resolusi': resolusi, 'provider_list': provider_list})
-        download_link.append(
-            {'ekstensi': p.text, 'daftar_link': link})
-    for item_li_scrolling in li_scrolling:
-        a = item_li_scrolling.find('a')
-        img = item_li_scrolling.find('img')
-        date = item_li_scrolling.find('span', class_='date').text
-        list_of_episodes.append({'image': img['src'], 'title': img['alt'], 'url': a['href'], 'date': date})
+    detail_page = req.get(url)
 
+    soup = BeautifulSoup(detail_page.text, 'html.parser')
+
+    player_embed = soup.find('div', class_='player-embed')
+    iframe = player_embed.find('iframe')
+    entry_title = soup.find('h1', class_='entry-title')
+    title = entry_title.text
+
+    list_url_download = []
+    soraddlx = soup.find_all('div', class_='soraddlx')
+    for item_soraddlx in soraddlx:
+        ekstensi = item_soraddlx.find('h3').text
+        soraurlx = item_soraddlx.find_all('div', 'soraurlx')
+        list_url = []
+        for item_soraurlx in soraurlx:
+            resolusi = item_soraurlx.find('strong').text
+            a = item_soraurlx.find_all('a')
+            list_a_soraurlx = []
+            for item_a in a:
+                list_a_soraurlx.append(
+                    {'url': item_a['href'], 'server': item_a.text})
+            list_url.append(
+                {'list_server': list_a_soraurlx, 'resolusi': resolusi})
+
+        list_url_download.append(
+            {'ekstensi': ekstensi, 'master': list_url})
+
+    listupd = soup.find('div', class_='listupd')
+    a = listupd.find_all('a')
+    list_rekomendasi_anime = []
+    for item_a in a:
+        h2 = item_a.find('h2')
+        img = item_a.find('img')
+        title_anime = h2.text
+        list_rekomendasi_anime.append(
+            {'title': title_anime, 'image': img['src'], 'url': item_a['href']})
     return jsonify({
         'status': True,
-        'response': {'entry_title': entry_title, 'download_link': download_link, 'list_of_episodes': list_of_episodes}
+        'response': {'title': title, 'url_streaming': iframe['src'], 'download': list_url_download, 'list_rekomendasi_anime': list_rekomendasi_anime}
     })
 
 
