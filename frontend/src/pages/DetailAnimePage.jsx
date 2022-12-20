@@ -5,25 +5,31 @@ import { postAnimeDetail } from "../sources/api";
 
 const DetailAnimePage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [linkDownload, setLinkDownload] = useState([]);
-  const [listEpisodes, setListEpisodes] = useState([]);
-  const [title, setTitle] = useState("");
+  const [detailAnime, setDetailAnime] = useState({
+    info: [],
+    list_of_episodes: [],
+    genre: [],
+  });
+
+  const navigate = useNavigate();
   const animeUrl = process.env.REACT_APP_BASE_ANIME_URL;
 
   const { pathname } = window.location;
   const arrayPath = pathname.split("/");
-  const anime = `/${arrayPath[arrayPath.length - 2]}`;
+  const anime = `/anime/${arrayPath[arrayPath.length - 2]}`;
   const formData = new FormData();
 
+  const handleClickEpisodeDetail = (url) => {
+    const arrayPath = url.split("/");
+    const anime = `/anime/episode/${arrayPath[arrayPath.length - 2]}/`;
+    navigate(anime);
+  };
   useEffect(() => {
     setIsLoading(true);
     formData.append("url", `${animeUrl}${anime}`);
-    console.log(`URL =====> ${animeUrl}${anime}`);
     postAnimeDetail(formData)
       .then((response) => {
-        setLinkDownload(response.data.response.download_link);
-        setListEpisodes(response.data.response.list_of_episodes);
-        setTitle(response.data.response.entry_title);
+        setDetailAnime(response.data.response);
         console.log(response.data.response);
         setIsLoading(false);
       })
@@ -38,75 +44,73 @@ const DetailAnimePage = () => {
       <Navbar />
       {isLoading ? (
         <div className="lg:mx-72 p-4 shadow-lg rounded-lg flex flex-col space-y-4">
-          <div className="animate-pulse rounded h-56 w-full bg-gray-400"></div>
-          <div className="animate-pulse rounded h-56 w-full bg-gray-400"></div>
-          <div className="animate-pulse rounded h-56 w-full bg-gray-400"></div>
-          <div className="animate-pulse rounded h-56 w-full bg-gray-400"></div>
+          <div className="animate-pulse rounded h-56 w-full bg-red-400"></div>
+          <div className="animate-pulse rounded h-56 w-full bg-red-400"></div>
+          <div className="animate-pulse rounded h-56 w-full bg-red-400"></div>
+          <div className="animate-pulse rounded h-56 w-full bg-red-400"></div>
         </div>
       ) : (
-        <div className="lg:mx-72 p-4 shadow-lg rounded-lg">
-          <a href="/anime" className="text-blue-500">
-            <i className="fa fa-arrow-left"></i> Kembali
-          </a>
-          <p className="font-bold my-4 text-center text-xl">{title}</p>
-          <div className="">
-            {linkDownload.map((item) => {
-              return (
-                <div className="mb-8">
-                  <p className="text-center text-sm mb-2 text-red-500 font-bold">
-                    {item.ekstensi}
-                  </p>
-                  <div className="w-full">
-                    {item.daftar_link.map((item_daftar_link) => {
-                      return (
-                        <div className="">
-                          <p className="text-sm font-bold mb-1">
-                            {item_daftar_link.resolusi}
-                          </p>
-                          <div className="flex justify-between mb-2">
-                            {item_daftar_link.provider_list.map(
-                              (item_provider) => {
-                                return (
-                                  <a
-                                    href={item_provider.url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                  >
-                                    <div className="bg-red-500 text-white rounded px-2 py-1">
-                                      <p>{item_provider.provider}</p>
-                                    </div>
-                                  </a>
-                                );
-                              }
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="h-1 w-full bg-gray-200"></div>
-          <div className="mt-4">
-            <p className="font-bold my-4 text-center text-xl">
-              Daftar episode dari anime ini
-            </p>
-            <div className=" h-72 overflow-auto">
-              {listEpisodes.map((episode) => {
-                return (
-                  <a href={episode.url} className="">
-                    <div className="flex space-x-2 mb-2">
-                      <img src={episode.image} alt="episode" className="w-24" />
-                      <div className="">
-                        <p className="font-bold">{episode.title}</p>
-                        <p className="text-sm text-gray-400">{episode.date}</p>
+        <div className="">
+          <div className="lg:mx-72 p-4 shadow-lg rounded-lg flex flex-col space-y-4">
+            <div className="flex space-x-4">
+              <div className="w-full">
+                <img src={detailAnime.image} alt="thumbnail" />
+                <p className="text-center mt-2 text-sm">
+                  ⭐ {detailAnime.rating}
+                </p>
+              </div>
+              <div className="text-sm">
+                <p className="font-bold text-lg mb-1">{detailAnime.title}</p>
+                <p>{detailAnime.min_desc}</p>
+                <p>{detailAnime.alter}</p>
+                <div className="mt-3 grid grid-cols-2">
+                  {detailAnime.info.map((info) => {
+                    return (
+                      <div className="flex space-x-1 place-items-center">
+                        <div className="bg-red-500 w-2 h-2 rounded" />
+                        <p>{info}</p>
                       </div>
-                    </div>
-                  </a>
-                );
-              })}
+                    );
+                  })}
+                </div>
+                <div className="my-3 flex gap-2 flex-wrap">
+                  {detailAnime.genre.map((genre) => {
+                    return (
+                      <a href={genre.url}>
+                        <div className="text-xs rounded border border-red-500 px-2 py-1 hover:bg-red-500 hover:text-white">
+                          <p className="">{genre.title}</p>
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+                <p>{detailAnime.desc}</p>
+              </div>
+            </div>
+          </div>
+          <div className="lg:mx-72 p-4 shadow-lg rounded-lg flex flex-col space-y-4 mt-4">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left text-gray-500 ">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                  <tr>
+                    <th scope="col" className="py-3 px-6">
+                      Episode
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {detailAnime.list_of_episodes.map((episode) => {
+                    return (
+                      <tr
+                        className="bg-white border-b cursor-pointer"
+                        onClick={() => handleClickEpisodeDetail(episode.url)}
+                      >
+                        <td class="py-4 px-6">{episode.title}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

@@ -19,13 +19,17 @@ export const postSearch = (data) => {
 };
 
 export const getAnimeNew = async () => {
-  return axios.get(`${url}/api/anime/new`);
+  return axios.get(`${url}/api/anime/op_home`);
 };
 
 export const postAnimeNewPagination = async (data) => {
-  return axios.post(`${url}/api/anime/new`, data);
+  return axios.post(`${url}/api/anime/op_home`, data);
+};
+
+export const postAnimeDetailEpisode = async (data) => {
+  return axios.post(`${url}/api/anime/op_episode`, data);
 };
 
 export const postAnimeDetail = async (data) => {
-  return axios.post(`${url}/api/anime/detail`, data);
+  return axios.post(`${url}/api/anime/op_detail`, data);
 };

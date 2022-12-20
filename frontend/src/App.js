@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Loading from "./components/Loading";
 import { ContextProvider } from "./contexts/ContextProvider";
+import DetailEpisodeAnimePage from "./pages/DetailEpisodeAnimePage";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const DetailKomikPage = lazy(() => import("./pages/DetailKomikPage"));
@@ -37,6 +38,12 @@ function App() {
             </Routes>
             <Routes>
               <Route path="/anime/:anime" element={<DetailAnimePage />} />
+            </Routes>
+            <Routes>
+              <Route
+                path="/anime/episode/:anime"
+                element={<DetailEpisodeAnimePage />}
+              />
             </Routes>
           </Suspense>
         </BrowserRouter>

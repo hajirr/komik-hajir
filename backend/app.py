@@ -348,8 +348,8 @@ def op_home():
         })
 
 
-@app.route('/api/anime/op_detail', methods=['POST'])
-def op_detail():
+@app.route('/api/anime/op_episode', methods=['POST'])
+def op_episode():
     url = request.form.get('url')
 
     detail_page = req.get(url)
@@ -392,6 +392,74 @@ def op_detail():
     return jsonify({
         'status': True,
         'response': {'title': title, 'url_streaming': iframe['src'], 'download': list_url_download, 'list_rekomendasi_anime': list_rekomendasi_anime}
+    })
+
+
+@app.route('/api/anime/op_detail', methods=['POST'])
+def op_detail():
+    url = request.form.get('url')
+
+    detail_page = req.get(url)
+
+    soup = BeautifulSoup(detail_page.text, 'html.parser')
+    infox = soup.find('div', class_='infox')
+    thumbook = soup.find('div', class_='thumbook')
+    img = thumbook.find('img')
+    rating = thumbook.find('strong').text
+
+    h1 = infox.find('h1')
+    mindesc = infox.find('div', 'mindesc')
+    alter_span = infox.find('span', class_='alter')
+    spe = infox.find('div', class_='spe')
+    span = spe.find_all('span')
+    genxed = infox.find('div', class_='genxed')
+    a = genxed.find_all('a')
+    desc = infox.find('div', class_='desc')
+
+    title = h1.text
+    min_description = mindesc.text.replace('oploverz.asia', 'baubawang.com').replace(
+        'Oploverz', 'Baubawang').replace('oploverz', 'baubawang')
+    description = desc.text.replace('oploverz.asia', 'baubawang.com').replace(
+        'Oploverz', 'Baubawang').replace('oploverz', 'baubawang')
+    alter = alter_span.text
+    info = []
+    for span_item in span:
+        if 'Posted' not in span_item.text:
+            info.append(span_item.text)
+    genre = []
+    for a_item in a:
+        genre.append({'url': a_item['href'], 'title': a_item.text})
+
+    bixbox = soup.find('div', class_='bixbox bxcl epcheck')
+    lastend = bixbox.find('div', class_='lastend')
+    a_lastend = lastend.find_all('a')
+    li_episode = bixbox.find_all('li')
+
+    firstandlast = []
+    for item_a in a_lastend:
+        span = item_a.find('span', class_='epcur')
+        title = span.text
+        firstandlast.append({'url': item_a['href'], 'title': title})
+
+    list_of_episode = []
+    for li_item in li_episode:
+        a = li_item.find('a')
+        title = li_item.find('div', class_='epl-title').text
+        list_of_episode.append({'url': a['href'], 'title': title})
+    return jsonify({
+        'status': True,
+        'response': {
+            'title': title,
+            'image': img['src'],
+            'rating': rating,
+            'min_desc': min_description,
+            'desc': description,
+            'alter': alter,
+            'info': info,
+            'genre': genre,
+            'first_and_last': firstandlast,
+            'list_of_episodes': list_of_episode,
+        }
     })
 
 
