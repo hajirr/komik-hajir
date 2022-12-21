@@ -39,7 +39,7 @@ const SearchKomikPage = () => {
 
   return (
     <div className="w-screen min-h-screen">
-      <Navbar />
+      <Navbar search="komik" />
       {!isLoading && daftarKomik.length < 1 && (
         <p className="text-center mt-10">Ngga ketemu</p>
       )}

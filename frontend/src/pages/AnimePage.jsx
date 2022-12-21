@@ -9,7 +9,7 @@ const AnimePage = () => {
   const [pagination, setPagination] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const formData = new FormData();
-  const skeletonList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const skeletonList = [1, 2, 3, 4];
   const navigate = useNavigate();
 
   const handlePagination = (url) => {
@@ -50,18 +50,31 @@ const AnimePage = () => {
   }, []);
   return (
     <div className="w-screen min-h-screen">
-      <Navbar />
+      <Navbar search="anime" />
       <div className="lg:mx-72 p-4 shadow-lg rounded-lg  ">
-        <p className="font-bold text-lg">Rekomendasi anime hari ini</p>
+        <p className="font-bold text-lg mb-4">Rekomendasi anime hari ini</p>
+        {isLoading && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 place-items-center w-full mb-4">
+            {skeletonList.map((item) => {
+              return (
+                <div className="">
+                  <div className="animate-pulse h-32 w-24 bg-red-400 rounded"></div>
+                  <div className="animate-pulse h-3 w-24 bg-red-400 rounded mt-2"></div>
+                  <div className="animate-pulse h-3 w-24 bg-red-400 rounded mt-2"></div>
+                </div>
+              );
+            })}
+          </div>
+        )}
         {!isLoading && (
-          <div className="flex justify-around my-4 w-full">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 place-items-center w-full mb-4">
             {listHotAnime.map((anime) => {
               return (
                 <div
                   className="cursor-pointer"
                   onClick={() => handleClickEpisodeDetail(anime.url)}
                 >
-                  <img src={anime.image} alt="episode" className="w-24" />
+                  <img src={anime.image} alt="episode" className="w-24 mb-2" />
                   <p className="font-bold text-xs w-24 text-center">
                     {anime.title}
                   </p>
@@ -72,13 +85,17 @@ const AnimePage = () => {
         )}
         <p className="font-bold text-lg">Episode Anime Terbaru</p>
         {isLoading && (
-          <div className="grid grid-cols-4 gap-4 my-4 w-full">
+          <div className="grid grid-cols-1 gap-4 my-4 w-full">
             {skeletonList.map((item) => {
               return (
-                <div className="">
-                  <div className="animate-pulse h-32 bg-red-400 rounded"></div>
-                  <div className="animate-pulse h-3 bg-red-400 rounded mt-2"></div>
-                  <div className="animate-pulse h-3 bg-red-400 rounded mt-2"></div>
+                <div className="flex space-x-4">
+                  <div className="animate-pulse h-32 w-24 bg-red-400 rounded"></div>
+                  <div className="w-72">
+                    <div className="animate-pulse h-3 w-full bg-red-400 rounded mt-2"></div>
+                    <div className="animate-pulse h-3 w-full bg-red-400 rounded mt-2"></div>
+                    <div className="animate-pulse h-3 w-full bg-red-400 rounded mt-2"></div>
+                    <div className="animate-pulse h-3 w-full bg-red-400 rounded mt-2"></div>
+                  </div>
                 </div>
               );
             })}

@@ -44,7 +44,7 @@ const DetailEpisodeAnimePage = () => {
 
   return (
     <div className="w-screen min-h-screen">
-      <Navbar />
+      <Navbar search="anime" />
       {isLoading ? (
         <div className="lg:mx-72 p-4 shadow-lg rounded-lg flex flex-col space-y-4">
           <div className="animate-pulse rounded h-56 w-full bg-red-400"></div>
@@ -107,7 +107,7 @@ const DetailEpisodeAnimePage = () => {
             <p className="font-bold my-4 text-center text-xl">
               Rekomendasi anime hari ini
             </p>
-            <div className="flex justify-around">
+            <div className="flex flex-wrap gap-4 justify-around">
               {listRekomendasiAnime.map((anime) => {
                 return (
                   <div

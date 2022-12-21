@@ -49,7 +49,7 @@ const DetailKomikPage = () => {
 
   return (
     <div className="w-screen min-h-screen">
-      <Navbar />
+      <Navbar search="komik" />
       <div className="lg:mx-96 p-4 shadow-lg rounded-lg">
         <div className="grid grid-cols-1 lg:grid-cols-2 mb-4">
           {!isLoading && <img src={daftarChapter.image} alt="thumbnail" />}

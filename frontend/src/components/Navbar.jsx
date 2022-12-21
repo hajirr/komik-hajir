@@ -2,19 +2,29 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/onion.png";
 
-const Navbar = () => {
+const Navbar = ({ search }) => {
   const searchQuery = useRef();
   const searchQueryMobile = useRef();
   const navigate = useNavigate();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
   const handleSearch = () => {
-    const url = `/search/${searchQuery.current.value}`;
+    let url = "";
+    if (search === "komik") {
+      url = `/search/${searchQuery.current.value}`;
+    } else {
+      url = `/anime/search/${searchQuery.current.value}`;
+    }
     navigate(url);
   };
 
   const handleSearchMobile = () => {
-    const url = `/search/${searchQueryMobile.current.value}`;
+    let url = "";
+    if (search === "komik") {
+      url = `/search/${searchQueryMobile.current.value}`;
+    } else {
+      url = `/anime/search/${searchQueryMobile.current.value}`;
+    }
     navigate(url);
   };
 

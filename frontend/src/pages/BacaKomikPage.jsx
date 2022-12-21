@@ -57,7 +57,7 @@ const BacaKomikPage = () => {
 
   return (
     <div className="w-screen min-h-screen">
-      <Navbar />
+      <Navbar search="komik" />
       <div className="lg:mx-96 p-4 shadow-lg rounded-lg flex flex-col justify-center place-items-center ">
         <p className="font-bold text-2xl text-center">{daftarChapter.title}</p>
         <p className="text-gray-400 text-sm">

@@ -257,7 +257,7 @@ def chapter():
 @app.route('/api/anime/op_home', methods=['GET', 'POST'])
 def op_home():
     if request.method == 'GET':
-        url = "https://15.235.11.45"
+        url = "https://oploverz.co.in"
         home_page = req.get(url)
 
         soup = BeautifulSoup(home_page.text, "html.parser")
@@ -421,7 +421,10 @@ def op_detail():
         'Oploverz', 'Baubawang').replace('oploverz', 'baubawang')
     description = desc.text.replace('oploverz.asia', 'baubawang.com').replace(
         'Oploverz', 'Baubawang').replace('oploverz', 'baubawang')
-    alter = alter_span.text
+    if alter_span != None:
+        alter = alter_span.text
+    else:
+        alter = ''
     info = []
     for span_item in span:
         if 'Posted' not in span_item.text:
@@ -460,6 +463,70 @@ def op_detail():
             'first_and_last': firstandlast,
             'list_of_episodes': list_of_episode,
         }
+    })
+
+
+@app.route('/api/anime/op_search', methods=['POST'])
+def anime_search():
+    query = request.form.get('query')
+    home_page = req.get('https://oploverz.co.in/?s={}'.format(query))
+
+    soup = BeautifulSoup(home_page.text, "html.parser")
+
+    listupd = soup.find('div', class_="listupd")
+    search_result = []
+    a = listupd.find_all('a')
+    for a_item in a:
+        h2 = a_item.find('h2')
+        epx = a_item.find('span', class_='epx')
+        img = a_item.find('img')
+        status = epx.text
+        title = h2.text
+        search_result.append(
+            {'url': a_item['href'], 'title': title, 'image': img['src'], 'statuc': status})
+
+    return jsonify({
+        'status': True,
+        'response': search_result,
+    })
+
+
+@app.route('/api/anime/op_genres', methods=['POST'])
+def anime_genres():
+    url = request.form.get('url')
+    genre_page = req.get(url)
+    soup = BeautifulSoup(genre_page.text, 'html.parser')
+
+    genre_result = []
+    listupd = soup.find('div', class_="listupd")
+    releases = soup.find('div', class_="releases")
+    pagination = soup.find('div', class_="pagination")
+    h1 = releases.find('h1')
+    a = listupd.find_all('a')
+    for a_item in a:
+        h2 = a_item.find('h2')
+        epx = a_item.find('span', class_='epx')
+        img = a_item.find('img')
+        status = epx.text
+        title = h2.text
+        genre_result.append(
+            {'url': a_item['href'], 'title': title, 'image': img['src'], 'statuc': status})
+
+    paginations = []
+    a_pagination = pagination.find_all('a')
+    for a_pagination_item in a_pagination:
+        paginations.append({
+            'title': a_pagination_item.text,
+            'url': a_pagination_item['href']
+        })
+    title = h1.text
+    return jsonify({
+        'status': True,
+        'response': {
+            'title': title,
+            'result': genre_result,
+            'pagination': paginations
+        },
     })
 
 

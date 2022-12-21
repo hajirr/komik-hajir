@@ -33,3 +33,15 @@ export const postAnimeDetailEpisode = async (data) => {
 export const postAnimeDetail = async (data) => {
   return axios.post(`${url}/api/anime/op_detail`, data);
 };
+
+export const postSearchAnime = (data) => {
+  return axios.post(`${url}/api/anime/op_search`, data);
+};
+
+export const postGenresAnime = (data) => {
+  return axios.post(`${url}/api/anime/op_genres`, data);
+};
+
+export const postAnimeGenrePagination = (data) => {
+  return axios.post(`${url}/api/anime/op_genres`, data);
+};

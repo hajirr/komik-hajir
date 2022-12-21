@@ -24,6 +24,13 @@ const DetailAnimePage = () => {
     const anime = `/anime/episode/${arrayPath[arrayPath.length - 2]}/`;
     navigate(anime);
   };
+
+  const handleClickGenre = (url) => {
+    const arrayPath = url.split("/");
+    const anime = `/anime/genres/${arrayPath[arrayPath.length - 2]}/`;
+    navigate(anime);
+  };
+
   useEffect(() => {
     setIsLoading(true);
     formData.append("url", `${animeUrl}${anime}`);
@@ -41,7 +48,7 @@ const DetailAnimePage = () => {
 
   return (
     <div className="w-screen min-h-screen">
-      <Navbar />
+      <Navbar search="anime" />
       {isLoading ? (
         <div className="lg:mx-72 p-4 shadow-lg rounded-lg flex flex-col space-y-4">
           <div className="animate-pulse rounded h-56 w-full bg-red-400"></div>
@@ -52,10 +59,14 @@ const DetailAnimePage = () => {
       ) : (
         <div className="">
           <div className="lg:mx-72 p-4 shadow-lg rounded-lg flex flex-col space-y-4">
-            <div className="flex space-x-4">
+            <div className="flex flex-col md:flex-row space-x-4">
               <div className="w-full">
-                <img src={detailAnime.image} alt="thumbnail" />
-                <p className="text-center mt-2 text-sm">
+                <img
+                  src={detailAnime.image}
+                  alt="thumbnail"
+                  className="mx-auto"
+                />
+                <p className="text-center mt-2 text-sm mb-4">
                   ⭐ {detailAnime.rating}
                 </p>
               </div>
@@ -76,11 +87,12 @@ const DetailAnimePage = () => {
                 <div className="my-3 flex gap-2 flex-wrap">
                   {detailAnime.genre.map((genre) => {
                     return (
-                      <a href={genre.url}>
-                        <div className="text-xs rounded border border-red-500 px-2 py-1 hover:bg-red-500 hover:text-white">
-                          <p className="">{genre.title}</p>
-                        </div>
-                      </a>
+                      <div
+                        onClick={() => handleClickGenre(genre.url)}
+                        className="cursor-pointer text-xs rounded border border-red-500 px-2 py-1 hover:bg-red-500 hover:text-white"
+                      >
+                        <p className="">{genre.title}</p>
+                      </div>
                     );
                   })}
                 </div>

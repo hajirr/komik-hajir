@@ -30,7 +30,7 @@ const HomePage = () => {
 
   return (
     <div className="w-screen min-h-screen">
-      <Navbar />
+      <Navbar search="komik" />
       <div className="p-4">
         <div className="h-4"></div>
         <HotKomikUpdate hotKomikUpdate={hotKomikUpdate} isLoading={isLoading} />

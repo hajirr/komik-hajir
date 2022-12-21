@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Loading from "./components/Loading";
 import { ContextProvider } from "./contexts/ContextProvider";
 import DetailEpisodeAnimePage from "./pages/DetailEpisodeAnimePage";
+import GenresAnimePage from "./pages/GenresAnimePage";
+import SearchAnimePage from "./pages/SearchAnimePage";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const DetailKomikPage = lazy(() => import("./pages/DetailKomikPage"));
@@ -43,6 +45,18 @@ function App() {
               <Route
                 path="/anime/episode/:anime"
                 element={<DetailEpisodeAnimePage />}
+              />
+            </Routes>
+            <Routes>
+              <Route
+                path="/anime/search/:query"
+                element={<SearchAnimePage />}
+              />
+            </Routes>
+            <Routes>
+              <Route
+                path="/anime/genres/:query"
+                element={<GenresAnimePage />}
               />
             </Routes>
           </Suspense>
