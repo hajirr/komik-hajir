@@ -359,7 +359,15 @@ def op_episode():
     player_embed = soup.find('div', class_='player-embed')
     iframe = player_embed.find('iframe')
     entry_title = soup.find('h1', class_='entry-title')
+    naveps = soup.find('div', class_='naveps')
+    nvs = naveps.find_all('div', class_='nvs')
     title = entry_title.text
+
+    navbar_episodes = []
+    for nvs_item in nvs:
+        a = nvs_item.find('a')
+        if a != None:
+            navbar_episodes.append({'title': a.text, 'url': a['href']})
 
     list_url_download = []
     soraddlx = soup.find_all('div', class_='soraddlx')
@@ -391,7 +399,7 @@ def op_episode():
             {'title': title_anime, 'image': img['src'], 'url': item_a['href']})
     return jsonify({
         'status': True,
-        'response': {'title': title, 'url_streaming': iframe['src'], 'download': list_url_download, 'list_rekomendasi_anime': list_rekomendasi_anime}
+        'response': {'title': title, 'url_streaming': iframe['src'], 'download': list_url_download, 'list_rekomendasi_anime': list_rekomendasi_anime, 'navbar_episodes': navbar_episodes}
     })
 
 

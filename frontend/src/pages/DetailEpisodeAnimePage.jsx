@@ -8,6 +8,7 @@ const DetailEpisodeAnimePage = () => {
   const [linkDownload, setLinkDownload] = useState([]);
   const [linkSteaming, setLinkSteaming] = useState("");
   const [listRekomendasiAnime, setListRekomendasiAnime] = useState([]);
+  const [navbarEpisodes, setNavbarEpisodes] = useState([]);
   const [title, setTitle] = useState("");
   const navigate = useNavigate();
   const animeUrl = process.env.REACT_APP_BASE_ANIME_URL;
@@ -23,6 +24,12 @@ const DetailEpisodeAnimePage = () => {
     navigate(anime);
   };
 
+  const handleClickEpisodeDetail = (url) => {
+    const arrayPath = url.split("/");
+    const anime = `/anime/episode/${arrayPath[arrayPath.length - 2]}/`;
+    navigate(anime);
+  };
+
   useEffect(() => {
     setIsLoading(true);
     formData.append("url", `${animeUrl}${anime}`);
@@ -33,6 +40,7 @@ const DetailEpisodeAnimePage = () => {
         setLinkSteaming(response.data.response.url_streaming);
         setListRekomendasiAnime(response.data.response.list_rekomendasi_anime);
         setTitle(response.data.response.title);
+        setNavbarEpisodes(response.data.response.navbar_episodes);
         console.log(response.data.response);
         setIsLoading(false);
       })
@@ -40,7 +48,7 @@ const DetailEpisodeAnimePage = () => {
         console.log(error);
         setIsLoading(false);
       });
-  }, []);
+  }, [pathname]);
 
   return (
     <div className="w-screen min-h-screen">
@@ -61,6 +69,29 @@ const DetailEpisodeAnimePage = () => {
             allowFullScreen
             className="w-full aspect-video"
           />
+          <div className="flex justify-around my-4">
+            {navbarEpisodes.map((item) => {
+              if (item.title.includes("Episodes")) {
+                return (
+                  <div
+                    className="px-2 py-1 bg-blue-500 cursor-pointer"
+                    onClick={() => handleClickDetail(item.url)}
+                  >
+                    <p className="text-white">{item.title}</p>
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    className="px-2 py-1 bg-red-500 cursor-pointer"
+                    onClick={() => handleClickEpisodeDetail(item.url)}
+                  >
+                    <p className="text-white">{item.title}</p>
+                  </div>
+                );
+              }
+            })}
+          </div>
           <div className="">
             {linkDownload.map((itemLinkDownload) => {
               return (
