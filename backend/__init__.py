@@ -282,7 +282,10 @@ def op_home():
             a = item_stylesix.find('a')
             scr = item_stylesix.find('span', class_='scr')
             title = h2.text
-            score = scr.text
+            if(scr != None):
+                score = scr.text
+            else:
+                score = ''
             li = item_stylesix.find_all('li')
             info = []
             for item_li in li:
