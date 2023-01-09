@@ -9,6 +9,7 @@ const DetailKomikPage = () => {
     title: "",
     info_komik: [],
     image: "",
+    sinopsis: "",
     daftar_chapter: [],
     genre: [],
   });
@@ -69,7 +70,7 @@ const DetailKomikPage = () => {
             </div>
             {daftarChapter.info_komik.map((info) => {
               return (
-                <p key={info} className="text-sm text-gray-400">
+                <p key={info} className="text-sm text-gray-400 font-bold">
                   {info.split(":")[0]}:
                   <span className="text-red-500 font-semibold">
                     {info.split(":")[1]}
@@ -77,6 +78,9 @@ const DetailKomikPage = () => {
                 </p>
               );
             })}
+            <p className="font-bold text-gray-400 mt-4">Sinopsis</p>
+            <div className="w-full h-1 bg-gray-200 my-2"></div>
+            <p>{daftarChapter.sinopsis}</p>
           </div>
         </div>
 

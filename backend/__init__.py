@@ -170,7 +170,9 @@ def detail():
         komik_info_content_info = soup.find_all(
             'span', class_='komik_info-content-info')
         genre_item = soup.find_all('a', class_='genre-item')
-
+        sinopsis_p = soup.find('div', class_='komik_info-description-sinopsis')
+        sinopsis = sinopsis_p.text
+        
         daftar_chapter = []
         info_komik = []
         genres = []
@@ -196,7 +198,7 @@ def detail():
 
         return jsonify({
             'status': True,
-            'response': {'title': title_komik, 'genre': genres, 'info_komik': info_komik, 'image': image['src'], 'daftar_chapter': daftar_chapter},
+            'response': {'title': title_komik,'sinopsis': sinopsis, 'genre': genres, 'info_komik': info_komik, 'image': image['src'], 'daftar_chapter': daftar_chapter},
         })
     except NameError as e:
         return jsonify({
